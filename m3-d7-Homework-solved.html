@@ -68,7 +68,12 @@
           if(response.ok){
             let userdata = await response.json();
             console.log(userdata)
-            console.log(userdata[0].name)
+            for (let i = 0; i < userdata.length; i++) {
+              const element = userdata[i];
+              console.log(element.name)
+              
+            }
+            
           }else{
             
           }
