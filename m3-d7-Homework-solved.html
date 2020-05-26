@@ -70,15 +70,30 @@
        
       ></div>
     </div>
-  
-  
   </div>
+  <hr>
   <div class="container" id="fullNameId">
-    <h1>List of Names </h1>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Username</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Email</th>
+          <th scope="col">website</th>
+          <th scope="col">Address</th>
+          <th scope="col">City</th>
+          <th scope="col">Company</th>
+          <th scope="col">Geo-location</th>
+        </tr>
+      </thead>
+      <tbody class="users">
+       
+       
+      </tbody>
+    </table>
    
-  </div>
-  <div>
-    <h1>List of address in String Format</h1>
   </div>
   
   <div class="container" id="addressList">
@@ -104,10 +119,22 @@
           if(response.ok){
             let userdata = await response.json();
             console.log(userdata)
+            const getUser = document.querySelector('.users')
             for (let i = 0; i < userdata.length; i++) {
               const element = userdata[i];
               console.log(element.name)
-              //print in a div or list
+              getUser.innerHTML +=`<tr>
+                                    <th scope="row">${element.id}</th>
+                                    <td>${element.name}</td>
+                                    <td>${element.username}</td>
+                                    <td>${element.phone}</td>
+                                    <td>${element.email}</td>
+                                    <td>${element.website}</td>
+                                    <td>${element.address.street}, ${element.address.suite}, ${element.address.zipcode}</td>
+                                    <td>${element.address.city}</td>
+                                    <td>${element.company.name}</td>
+                                    <td>${element.address.geo.lat}, ${element.address.geo.lng}</td>
+                                  </tr>`
             }
             
           }else{
@@ -168,9 +195,6 @@
             for (let i = 0; i < userdata.length; i++) {
               const element = userdata[i];
             
-              //stringList = JSON.stringify(element.name)
-              
-            
               
               allNames.innerHTML +=` <ul class="list-group list-group-horizontal">
                                       <li class="list-group-item">${element.name}</li>
@@ -201,8 +225,7 @@
             console.log(userdata)
             for (let i = 0; i < userdata.length; i++) {
               const element = userdata[i];
-              console.log(element.name.sort())
-              //print in a div or list
+              
             }
             
           }else{
