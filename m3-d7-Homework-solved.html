@@ -73,6 +73,9 @@
   
   
   </div>
+  <div class="container" id="fullNameId">
+   
+  </div>
   <div class="container" id="addressList">
    
   </div>
@@ -85,7 +88,7 @@
 
     <script>
       window.onload= async function(){
-        fullAddress()
+        allNames()
         
         try {
           let response = await fetch("https://jsonplaceholder.typicode.com/users ");
@@ -143,21 +146,23 @@
       // };
       }
       
-      async function fullAddress(){
+      async function allNames(){
         
         try {
           let response = await fetch("https://jsonplaceholder.typicode.com/users ");
           if(response.ok){
             let userdata = await response.json();
             console.log(userdata)
-            let addresList = document.querySelector('#addressList')
+            let allNames = document.querySelector('#fullNameId')
            
             for (let i = 0; i < userdata.length; i++) {
               const element = userdata[i];
-              stringList = JSON.stringify(element.address)
-              console.log(JSON.stringify(element.address))
+            
+              stringList = JSON.stringify(element.name)
               
-              addresList.innerHTML +=` <ul class="list-group list-group-horizontal">
+            
+              
+              allNames.innerHTML +=` <ul class="list-group list-group-horizontal">
                                       <li class="list-group-item">${stringList}</li>
                                      
                                     </ul>
