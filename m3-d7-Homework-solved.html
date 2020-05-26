@@ -35,20 +35,32 @@
       EXTRA)
       Visualize on a Google Map plugin all the users (using lat & lng)
     -->
-
+ 
+    
   </head>
   <body>
-  <div class="container">
-    <div class="dropdown">
-      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-       Select
-      </a>
-    
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <a class="dropdown-item" id="nameId" href="#">Name</a>
-        <a class="dropdown-item" id="usernameId" href="#">Username</a>
-        <a class="dropdown-item" id="emailId" href="#">Email</a>
-      </div>
+  <div class="container row">
+    <div class="select"> 
+
+      <div class="dropdown">
+     
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         Select
+        </a>
+      
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" id="nameId" href="#">Name</a>
+          <a class="dropdown-item" id="usernameId" href="#">Username</a>
+          <a class="dropdown-item" id="emailId" href="#">Email</a>
+        </div>
+    </div>
+   
+    </div>
+    <div class="search">
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
     </div>
   
   
