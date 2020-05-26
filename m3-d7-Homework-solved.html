@@ -38,6 +38,21 @@
 
   </head>
   <body>
+  <div class="container">
+    <div class="dropdown">
+      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+       Select
+      </a>
+    
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <a class="dropdown-item" id="nameId" href="#">Name</a>
+        <a class="dropdown-item" id="usernameId" href="#">Username</a>
+        <a class="dropdown-item" id="emailId" href="#">Email</a>
+      </div>
+    </div>
+  
+  
+  </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -46,7 +61,22 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <script>
-    
+      window.onload= async function(){
+        
+        try {
+          let response = await fetch("https://jsonplaceholder.typicode.com/users ");
+          if(response.ok){
+            let userdata = await response.json();
+            console.log(userdata)
+            console.log(userdata[0].name)
+          }else{
+            
+          }
+          
+        } catch (error) {
+          
+        }
+      }
     </script>
   </body>
 </html>
