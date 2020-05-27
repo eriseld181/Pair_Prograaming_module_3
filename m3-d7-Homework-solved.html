@@ -4,7 +4,9 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin=""/>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -35,7 +37,10 @@
       EXTRA)
       Visualize on a Google Map plugin all the users (using lat & lng)
     -->
- 
+    <style>
+      #mapid { height: 180px; }
+    
+    </style>
     
   </head>
   <body>
@@ -56,10 +61,10 @@
     </div>
    
     </div>
-    <div class="search" id="searchId">
+    <div class="search" >
       <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <input class="form-control mr-sm-2" id="searchId" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="searchByName()">Search</button>
       </form>
     </div>
     
@@ -97,7 +102,7 @@
   </div>
   
   <div class="container" id="addressList">
- 
+    <div id="mapid"></div>
    
   </div>
 
@@ -106,14 +111,18 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+     <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
     <script>
       window.onload= async function(){
-        allNames()
-        fullAddress()
-        ascenSort()
-       
         
+        allNames()
+        //fullAddress()
+        //ascenSort()
+        
+        //searchMth() 
         try {
           let response = await fetch("https://jsonplaceholder.typicode.com/users ");
           if(response.ok){
@@ -135,7 +144,17 @@
                                     <td>${element.company.name}</td>
                                     <td>${element.address.geo.lat}, ${element.address.geo.lng}</td>
                                   </tr>`
+              
             }
+            let map = L.map('map').setView([51.505, -0.09], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            L.marker([51.5, -0.09]).addTo(map)
+                .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+                .openPopup();
             
           }else{
             
@@ -146,43 +165,29 @@
         }
         
       
-       
-        //searching....
-      //   let search = () => {
-      //   let div = document.querySelector("#searchId .row");
-      //   div.innerHTML = "";
-      //   let searchQuery = document.querySelector("#searchId").value;
-
-      //   if (searchQuery.length > 2) {
-      //     document.querySelector("#searchResults").classList.remove("d-none");
-
-      //     fetch(
-      //       "https://jsonplaceholder.typicode.com/users" + searchQuery,
-            
-      //     )
-      //       .then((response) => {
-      //         if (response.ok) {
-      //           return response.json();
-      //         }
-      //       })
-      //       .then((searchname) => {
-      //         let names = response.json();
-              
-      //         for (let i = 0; i < names.length; i++) {
-      //           if(searchQuery===names[i].name){
-      //             console.log(names[i].id)
-                  
-      //           }
-               
-      //         }
-      //       })
-      //       .catch((error) => {
-      //         console.log(error);
-      //       });
-      //   }
-      // };
+     
       }
-      
+      function searchByName() {
+        // Declare variables
+        let input, filter, table, tr, td, i, txtValue;
+        input = document.querySelector("#searchId");
+        filter = input.value.toUpperCase();
+        table = document.querySelector(".table");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[2];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+  }
       async function allNames(){
         
         try {
